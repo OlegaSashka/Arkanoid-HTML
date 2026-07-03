@@ -14,7 +14,7 @@ export class Game {
     init(){
         console.log('Game initialized');
 
-        this.ball = new Ball(100, 100, 10, 0, -1);
+        this.ball = new Ball(150, 150, 10, -2, -1);
         this._startLoop();
     }
 
@@ -25,21 +25,12 @@ export class Game {
 
             requestAnimationFrame(loop);
         }
-
         requestAnimationFrame(loop);
     }
 
     _update() {
         if(this.ball) {
-            this.ball.update();
-
-            if(this.ball.left < 0 || this.ball.right > this.canvas.width) {
-                this.ball.vx = -this.ball.vx;
-            }
-
-            if(this.ball.top < 0) {
-                this.ball.vy = -this.ball.vy;
-            }
+            this.ball.update(this.canvas.width, this.canvas.height);
         }
     }
 

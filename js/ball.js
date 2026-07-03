@@ -6,6 +6,26 @@ export class Ball extends GameObject {
         this.radius = radius;
     }
 
+    update() {
+    }
+
+    update(worldWidth, worldHeight){
+        super.update(worldWidth, worldHeight);
+        this._handleBoundsCollision(worldWidth, worldHeight);
+    }
+
+    _handleBoundsCollision(worldWidth, worldHeight) {
+        //стены
+        if(this.left < 0 || this.right > worldWidth) {
+            this.vx = -this.vx;
+        }
+
+        //пол и потолок
+        if(this.top < 0) {
+            this.vy = -this.vy;
+        }
+    }
+
     draw(ctx) {
         ctx.beginPath();
         ctx.arc(this.x + this.radius, this.y + this.radius, this.radius, 0, Math.PI * 2);
