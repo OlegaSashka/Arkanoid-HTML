@@ -1,3 +1,5 @@
+import {GameObject} from './gameObject.js';
+
 export class Game {
     constructor(canvasId) {
         this.canvas = document.getElementById(canvasId);
