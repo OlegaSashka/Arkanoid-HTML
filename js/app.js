@@ -11,7 +11,7 @@ export class Game {
 
     init(){
         console.log('Game initialized');
-
+        
         this.currentLevel = new Level(this.canvas.width, this.canvas.height);
 
         this._startGame();

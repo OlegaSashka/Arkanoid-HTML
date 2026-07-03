@@ -1,7 +1,6 @@
 export class InputManager {
     constructor() {
         this.actions = {};
-
         this.keyMap = {};
 
         this._initListeners();
@@ -9,14 +8,14 @@ export class InputManager {
 
     _initListeners() {
         window.addEventListener('keydown', (e) => {
-            if(e.cod in this.keyMaps) {
+            if(e.code in this.keyMap) {
                 const action = this.keyMap[e.code];
                 this.actions[action] = true;
             }
         });
 
         window.addEventListener('keyup', (e) => {
-            if(e.cod in this.keyMaps) {
+            if(e.code in this.keyMap) {
                 const action = this.keyMap[e.code];
                 this.actions[action] = false;
             }
@@ -31,6 +30,6 @@ export class InputManager {
 
     bindKey(keyCode, actionName) {
         this.registerAction(actionName);
-        this.keyMap[keyCode] = false;
+        this.keyMap[keyCode] = actionName;
     }
 }
