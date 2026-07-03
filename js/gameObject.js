@@ -6,6 +6,8 @@ export class GameObject {
         this.height = height;
         this.vx = vx;
         this.vy = vy;
+
+        this.isAlive = true;
     }
 
     update(){
@@ -19,4 +21,9 @@ export class GameObject {
     get right() { return this.x + this.width;}
     get top() { return this.y;}
     get bottom() { return this.y + this.height;}
+
+    _isDead() {
+        if(this.isAlive == false)
+            console.log('Object is dead');
+    }
 }

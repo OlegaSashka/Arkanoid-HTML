@@ -12,6 +12,7 @@ export class Ball extends GameObject {
     update(worldWidth, worldHeight){
         super.update(worldWidth, worldHeight);
         this._handleBoundsCollision(worldWidth, worldHeight);
+        this._isDead(worldHeight);
     }
 
     _handleBoundsCollision(worldWidth, worldHeight) {
@@ -32,6 +33,15 @@ export class Ball extends GameObject {
         ctx.fillStyle = 'red';
         ctx.fill();
         ctx.closePath();
+    }
+
+    _isDead(worldHeight) {
+        //пол и потолок
+        if(this.bottom < 0 || this.top > worldHeight) {
+            console.log('Ball is dead');
+            this.isAlive = false;
+        }
+        super._isDead();
     }
 }
 
