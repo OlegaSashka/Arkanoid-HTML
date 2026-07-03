@@ -1,4 +1,5 @@
 import { GameObject } from './gameObject.js';
+import { Paddle } from './paddle.js';
 
 export class Ball extends GameObject {
     constructor(x, y, radius, vx = 0, vy = 0) {
@@ -8,14 +9,24 @@ export class Ball extends GameObject {
 
     update(worldWidth, worldHeight){
         super.update();
-        this._handleBoundsCollision(worldWidth, worldHeight);
         this._isDead(worldHeight);
     }
 
-    _handleBoundsCollision(worldWidth) {
-        //стены
-        if(this.left < 0 || this.right > worldWidth) {
+    onCollision(other){
+        if(other.type === 'wall'){
             this.vx = -this.vx;
+        }
+
+        if(other.type === 'roof'){
+            this.vy = -this.vy;
+        }
+
+        if(other instanceof Paddle) {
+            console.log('Сработал ивент');
+
+            this.vy = -this.vy;
+
+            this.y = other.top - this.height;
         }
     }
 

@@ -19,11 +19,18 @@ export class Paddle extends GameObject {
     }
 
     update(worldWidth) {
-        this._tryMove(5);
-        
-        this._handleBoundsCollision(worldWidth);
-
         super.update();
+        this._tryMove(5);
+    }
+
+    onCollision(other) {
+        if (other.type === 'wall_left' && this.vx < 0) {
+            this.vx = 0;
+        }
+
+        if (other.type === 'wall_right' && this.vx > 0) {
+            this.vx = 0;
+        }
     }
 
     draw(ctx) {
@@ -32,17 +39,6 @@ export class Paddle extends GameObject {
         ctx.fillRect(this.x, this.y, this.width, this.height);
         ctx.fill();
         ctx.closePath();
-    }
-
-
-    _handleBoundsCollision(worldWidth){
-        if(this.left < 1 && this.vx < 0){
-            this.vx = 0;
-        }
-
-        if (this.right > worldWidth - 1 && this.vx > 0) {
-            this.vx = 0;
-        }
     }
 
     _tryMove(dx){

@@ -22,6 +22,15 @@ export class GameObject {
     get top() { return this.y;}
     get bottom() { return this.y + this.height;}
 
+    intersects(other) {
+        return this.right > other.left &&
+               this.left < other.right &&
+               this.bottom > other.top &&
+               this.top < other.bottom;
+    }
+
+    onCollision(other){}
+
     _isDead() {
         if(this.isAlive == false)
             console.log('Object is dead');
