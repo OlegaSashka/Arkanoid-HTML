@@ -42,6 +42,31 @@ export class BaseLevel {
                     rectTop: this.paddle.top
                 });
             }
+
+            this.walls.forEach(wall => {
+                if(ball.intersects(wall)) {
+                    const normal = this._getCollisionNormal(ball, wall);
+                    ball.onCollision({
+                        type: 'surface',
+                        nx: normal.nx,
+                        ny: normal.ny,
+                        rectTop: wall.top
+                    });
+                }
+            });
+
+            if(this.paddle) {
+                this.walls.forEach(wall => {
+                    if(this.paddle.intersects(wall)){
+                        // Если стена на левой половине экрана — она левая
+                        if (wall.x < this.worldWidth / 2) {
+                            this.paddle.onCollision({ type: 'wall_left', x: wall.right });
+                        } else {
+                            this.paddle.onCollision({ type: 'wall_right', x: wall.left });
+                        }
+                    }
+                })
+            }
         });
     }
 
@@ -49,13 +74,13 @@ export class BaseLevel {
         const overlapLeft = ball.right - rect.left;
         const overlapRight = rect.right - ball.left;
         const overlapTop = ball.bottom - rect.top;
-        const overlapBottom = rect.right - ball.left;
+        const overlapBottom = rect.bottom - ball.top;
 
         const minOverlap = Math.min(overlapLeft, overlapRight, overlapTop, overlapBottom);
 
         if(minOverlap == overlapLeft) return {nx: -1, ny: 0};
-        if(minOverlap == overlapLeft) return {nx: 1, ny: 0};
-        if(minOverlap == overlapLeft) return {nx: 0, ny: -1};
+        if(minOverlap == overlapRight) return {nx: 1, ny: 0};
+        if(minOverlap == overlapTop) return {nx: 0, ny: -1};
         return {nx: 0, ny: 1}
     }
 
@@ -69,6 +94,10 @@ export class BaseLevel {
         if (this.paddle) {
             this.paddle.draw(ctx);
         }
+
+        this.walls.forEach(wall => {
+            wall.draw(ctx);
+        })
     }
 
     _cleanup() {

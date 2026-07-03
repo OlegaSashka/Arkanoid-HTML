@@ -1,5 +1,4 @@
 import { GameObject } from './gameObject.js';
-import { Paddle } from './paddle.js';
 
 export class Ball extends GameObject {
     constructor(x, y, radius, vx = 0, vy = 0) {

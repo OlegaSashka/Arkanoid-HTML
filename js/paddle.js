@@ -6,6 +6,8 @@ export class Paddle extends GameObject {
         super(x,y, width, height);
 
         this.input = null;
+
+        this.init();
     }
 
     init(){
@@ -19,17 +21,19 @@ export class Paddle extends GameObject {
     }
 
     update(worldWidth) {
-        super.update();
         this._tryMove(5);
+        super.update();
     }
 
     onCollision(other) {
         if (other.type === 'wall_left' && this.vx < 0) {
             this.vx = 0;
+            this.x = other.x;
         }
 
         if (other.type === 'wall_right' && this.vx > 0) {
             this.vx = 0;
+            this.x = other.x - this.width;
         }
     }
 
