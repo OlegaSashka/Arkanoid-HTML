@@ -13,20 +13,15 @@ export class Ball extends GameObject {
     }
 
     onCollision(other){
-        if(other.type === 'wall'){
-            this.vx = -this.vx;
-        }
+        if(other.type === 'surface') {
+            const dot = this.vx * other.nx + this.vy * other.ny;
 
-        if(other.type === 'roof'){
-            this.vy = -this.vy;
-        }
+            this.vx = this.vx - 2 * dot * other.nx;
+            this.vy = this.vy - 2 * dot * other.ny;
 
-        if(other instanceof Paddle) {
-            console.log('Сработал ивент');
-
-            this.vy = -this.vy;
-
-            this.y = other.top - this.height;
+            if(other.ny === -1) {
+                this.y = other.rectTop - this.height;
+            }
         }
     }
 

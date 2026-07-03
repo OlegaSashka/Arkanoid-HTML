@@ -31,6 +31,8 @@ export class GameObject {
 
     onCollision(other){}
 
+    get centerX() {return this.x + this.width/2}
+
     _isDead() {
         if(this.isAlive == false)
             console.log('Object is dead');

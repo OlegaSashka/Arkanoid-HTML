@@ -29,28 +29,34 @@ export class BaseLevel {
     }
 
     _checkCollision() {
-        this.balls.forEach(ball => {
+        this.balls.forEach(ball =>{
             if(!ball.isAlive) return;
 
-            if(ball.left < 0 || ball.right > this.worldWidth) {
-                ball.onCollision({type: 'wall' });
-            }
-            if(ball.top < 0) {
-                ball.onCollision({type: 'roof' });
-            }
+            if(this.paddle && ball.intersects(this.paddle)){
+                const normal = this._getCollisionNormal(ball, this.paddle);
 
-            if(this.paddle && ball.intersects(this.paddle)) {
-                ball.onCollision(this.paddle);
-                this.paddle.onCollision(ball);
-            }
-
-            if (this.paddle) {
-                if (this.paddle.left < 0) 
-                    this.paddle.onCollision({ type: 'wall_left' });
-                if (this.paddle.right > this.worldWidth) 
-                    this.paddle.onCollision({ type: 'wall_right' });
+                ball.onCollision({
+                    type: 'surface',
+                    nx: normal.nx,
+                    ny: normal.ny,
+                    rectTop: this.paddle.top
+                });
             }
         });
+    }
+
+    _getCollisionNormal(ball, rect){
+        const overlapLeft = ball.right - rect.left;
+        const overlapRight = rect.right - ball.left;
+        const overlapTop = ball.bottom - rect.top;
+        const overlapBottom = rect.right - ball.left;
+
+        const minOverlap = Math.min(overlapLeft, overlapRight, overlapTop, overlapBottom);
+
+        if(minOverlap == overlapLeft) return {nx: -1, ny: 0};
+        if(minOverlap == overlapLeft) return {nx: 1, ny: 0};
+        if(minOverlap == overlapLeft) return {nx: 0, ny: -1};
+        return {nx: 0, ny: 1}
     }
 
     draw(ctx) {

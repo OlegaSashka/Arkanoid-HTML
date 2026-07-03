@@ -17,7 +17,7 @@ export class Game {
         this._startGame();
     }
 
-    _startGame(){
+    _startGame() {
         const gameLoop = () => {
             if(this.currentLevel) {
                 this.currentLevel.update();
