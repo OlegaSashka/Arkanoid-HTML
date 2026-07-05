@@ -8,7 +8,10 @@ export class Ball extends GameObject {
 
     update(worldWidth, worldHeight){
         super.update();
-        this._isDead(worldHeight);
+        this._isDead(worldWidth, worldHeight);
+        if(this.vx == 0 && this.vy != 0){
+            this.vy = 2;
+        }
     }
 
     onCollision(other){
@@ -32,10 +35,9 @@ export class Ball extends GameObject {
         ctx.closePath();
     }
 
-    _isDead(worldHeight) {
+    _isDead(worldWidth, worldHeight) {
         //пол и потолок
-        if(this.bottom < 0 || this.top > worldHeight) {
-            console.log('Ball is dead');
+        if(this.bottom < 0 || this.top > worldHeight || this.right < 0 || this.left > worldWidth) {
             this.isAlive = false;
         }
         super._isDead();

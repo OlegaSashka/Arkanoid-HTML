@@ -38,11 +38,8 @@ export class Paddle extends GameObject {
     }
 
     draw(ctx) {
-        ctx.beginPath();
         ctx.fillStyle = '#2196F3';
         ctx.fillRect(this.x, this.y, this.width, this.height);
-        ctx.fill();
-        ctx.closePath();
     }
 
     _tryMove(dx){

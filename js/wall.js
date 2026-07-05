@@ -1,8 +1,13 @@
 import { GameObject } from './gameObject.js';
 
 export class Wall extends GameObject {
-    constructor(x, y, width, height, vx = 0, vy = 0) {
+    constructor(x, y, width, height, vx = 0, vy = 0, orientation) {
         super(x,y, width, height);
+        this.orientation = orientation;
+    }
+
+    update(){
+        super.update();
     }
 
     draw(ctx) {

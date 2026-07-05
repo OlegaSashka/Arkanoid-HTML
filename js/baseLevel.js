@@ -5,7 +5,7 @@ export class BaseLevel {
 
         this.balls = [];
         this.walls = [];
-        this.bricks = [];
+        this.bricks = null;
 
         this.paddle = null;
 
@@ -55,10 +55,28 @@ export class BaseLevel {
                 }
             });
 
+            this.bricks.forEach(brick => {
+                if(ball.intersects(brick)) {
+                    const normal = this._getCollisionNormal(ball, brick);
+                    brick.onCollision({
+                        type: 'surface',
+                        nx: normal.nx,
+                        ny: normal.ny,
+                        rectTop: brick.top
+                    });
+
+                    ball.onCollision({
+                        type: 'surface',
+                        nx: normal.nx,
+                        ny: normal.ny,
+                        rectTop: brick.top
+                    });
+                }
+            });
+
             if(this.paddle) {
                 this.walls.forEach(wall => {
                     if(this.paddle.intersects(wall)){
-                        // Если стена на левой половине экрана — она левая
                         if (wall.x < this.worldWidth / 2) {
                             this.paddle.onCollision({ type: 'wall_left', x: wall.right });
                         } else {
@@ -98,10 +116,15 @@ export class BaseLevel {
         this.walls.forEach(wall => {
             wall.draw(ctx);
         })
+
+        this.bricks.forEach(brick => {
+            brick.draw(ctx);
+        })
     }
 
     _cleanup() {
         this.balls = this.balls.filter(ball => ball.isAlive);
+        this.bricks = this.bricks.filter(brick => brick.isAlive);
 
         if(this.balls.length === 0)
             this.init();
