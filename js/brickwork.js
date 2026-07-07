@@ -10,7 +10,6 @@ export class BrickWork {
         for (let row = 0; row < rows; row++) {
             const y = startY + row * brickHeight;
 
-            let brick = new Brick();
             color = this._getRandomColor();
             for (let col = 0; col < cols; col++) {
                 const x = startX + col * brickWidth;

@@ -2,20 +2,21 @@ import { GameObject } from './gameObject.js';
 import { Vector2D } from './vector2D.js';
 
 export class Ball extends GameObject {
-    constructor(x, y, radius, dirX = 0, dirY = 0, velocity = 0) {
+    constructor(x, y, radius, dirX = 0, dirY = 0, speed = 0) {
         super(x,y, radius * 2, radius * 2, 0, 0);
 
         this.radius = radius;
-        this.velocity = velocity;
+        this.speed = speed;
 
         this.direction = new Vector2D(dirX, dirY).normalize();
     }
 
     update(worldWidth, worldHeight){
-        this.vx = this.direction.x * this.velocity;
-        this.vy = this.direction.y * this.velocity;
+        this.vx = this.direction.x * this.speed;
+        this.vy = this.direction.y * this.speed;
 
         super.update();
+        
         this._isDead(worldWidth, worldHeight);
     }
 
@@ -24,9 +25,9 @@ export class Ball extends GameObject {
             const normal = new Vector2D(other.nx, other.ny)
 
             const dot = this.direction.dot(normal);
-
-            this.vx = this.direction.x - 2 * dot * normal.x;
-            this.vy = this.direction.y - 2 * dot * normal.y;
+            
+            this.direction.x = this.direction.x - 2 * dot * normal.x;
+            this.direction.y = this.direction.y - 2 * dot * normal.y;
 
             this.direction = this.direction.normalize();
 
@@ -46,7 +47,8 @@ export class Ball extends GameObject {
 
     _isDead(worldWidth, worldHeight) {
         //пол и потолок
-        if(this.bottom < 0 || this.top > worldHeight || this.right < 0 || this.left > worldWidth) {
+        if(this.bottom < 0 || this.top > worldHeight || 
+            this.right < 0 || this.left > worldWidth) {
             this.isAlive = false;
         }
         super._isDead();
