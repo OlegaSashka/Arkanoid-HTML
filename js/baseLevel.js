@@ -18,7 +18,10 @@ export class BaseLevel {
         this.score = new GameScore();
         
         this.currentLevel = 1;
-        this.highLevel = 1;
+        this.highLevel = 0;
+
+        this.elementHighLevel = null
+        this.elementLevel = null
 
         eventScore.on('brick:destroyed', (points) => 
         {
@@ -30,6 +33,8 @@ export class BaseLevel {
 
     init(){
         this.score.resetScore();
+        this.score.resetLives();
+        this.currentLevel = 1;
 
         const savedState = SaveManager.load();
         this.score.highScore = savedState?.highScore ?? 0;
@@ -41,14 +46,18 @@ export class BaseLevel {
 
         this.score.setElementsId(scoreElement, highScoreElement, livesElement);
 
-        const levelElement = document.getElementById('game-level');
-        const highLevelElement = document.getElementById('game-highLevel');
+        this.elementLevel = document.getElementById('game-level');
+        this.elementHighLevel = document.getElementById('game-highLevel');
 
-        if(levelElement){
-            levelElement.innerText = this.currentLevel;
+        this.restartLevel();
+    }
+
+    restartLevel(){
+        if(this.elementHighLevel){
+            this.elementHighLevel.innerText = this.highLevel;
         }
-        if(highLevelElement){
-            highLevelElement.innerText = this.highLevel;
+        if(this.elementLevel){
+            this.elementLevel.innerText = this.currentLevel;
         }
     }
 
@@ -195,7 +204,14 @@ export class BaseLevel {
         this.bricks = this.bricks.filter(brick => brick.isAlive);
 
         if(this.balls.length === 0){
-            this.init();
+            this.score.damagePlayer(1);
+            if(this.score.lives > 0){
+                this.score.changeScore(this.score.scoreOnStartLevel);
+                this.restartLevel();
+            }else if(this.score.lives <= 0){
+                this.init();
+            }
+
         }
 
         if(this.bricks.length === 0){
@@ -203,8 +219,12 @@ export class BaseLevel {
             if(this.currentLevel > this.highLevel){
                 this.highLevel = this.currentLevel;
                 SaveManager.save({highLevel: this.highLevel});
+                if(this.elementHighLevel){
+                    this.elementHighLevel.innerText = this.highLevel;
+                }
             }
-            this.init();
+            this.score.scoreOnStartLevel = this.score.currentScore;
+            this.restartLevel();
         }  
     }
 }

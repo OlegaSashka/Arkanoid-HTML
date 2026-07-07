@@ -4,8 +4,9 @@ export class GameScore {
     constructor(startScore = 0){
         this.startScore = startScore;
         this.currentScore = startScore;
-
-        this.highScore = 0;
+        this.scoreOnStartLevel = startScore;
+        
+        this.highScore = 1;
         this.lives = 3;
 
         this.elementScoreId = null;
@@ -15,8 +16,35 @@ export class GameScore {
         this.resetScore();
     }
 
+    damagePlayer(damage){
+        if(damage < 0) return; 
+        this.resizeLives(-damage);
+    }
+
+    healPlayer(heal){
+        if(heal < 0) return;
+        this.resizeLives(heal);
+    }
+
     resizeScore(score){
         this.currentScore += score;
+
+        if(this.elementScoreId){
+            this.elementScoreId.innerText = this.currentScore;
+        }
+                 
+        if(this.currentScore > this.highScore){
+            this.highScore = this.currentScore;
+            SaveManager.save({ highScore: this.highScore });
+        }
+
+        if(this.elementHighScoreId){
+            this.elementHighScoreId.innerText = this.highScore;
+        }
+    }
+
+    changeScore(score){
+        this.currentScore = score;
 
         if(this.elementScoreId){
             this.elementScoreId.innerText = this.currentScore;
@@ -37,6 +65,25 @@ export class GameScore {
 
         if(this.elementScoreId){
             this.elementScoreId.innerText = this.currentScore;
+        }
+    }
+
+    resizeLives(lives){
+        this.lives += lives;
+
+        if(this.lives <= 0) {
+            this.lives = 0;
+        }
+
+        if(this.elementLivesId){
+            this.elementLivesId.innerText = this.lives;
+        }
+    }
+
+    resetLives(){
+        this.lives = 3;
+        if(this.elementLivesId){
+            this.elementLivesId.innerText = this.lives;
         }
     }
 
