@@ -1,3 +1,6 @@
+import { GameScore } from "./gameScore.js";
+import { eventScore } from "./eventScore.js";
+
 export class BaseLevel {
     constructor(worldWidth, worldHeight) {
         this.worldWidth = worldWidth;
@@ -8,6 +11,18 @@ export class BaseLevel {
         this.bricks = null;
 
         this.paddle = null;
+
+        this.score = new GameScore();
+
+        eventScore.on('brick:destroyed', (points) => 
+            {
+                this.score.resizeScore(points);
+                
+                const scoreElement = document.getElementById('game-score');
+                if(scoreElement){
+                    scoreElement.innerText = this.score.currentScore;
+                }
+            });
 
         this.init();
     }

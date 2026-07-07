@@ -15,8 +15,4 @@ export class GameScore {
     resetScore(){
         this.currentScore = this.startScore;
     }
-
-    get countScore(){
-        return this.currentScore;
-    }
 }

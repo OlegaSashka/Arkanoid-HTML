@@ -1,7 +1,8 @@
 import { GameObject } from './gameObject.js';
+import { eventScore } from './eventScore.js';
 
 export class Brick extends GameObject {
-    constructor(x, y, width, height, maxHp = 1, color = null, randomColor = false) {
+    constructor(x, y, width, height, maxHp = 1, score=10, color = null, randomColor = false) {
         super(x,y, width, height);
         
         this.color = color;
@@ -30,6 +31,8 @@ export class Brick extends GameObject {
             this._damage(1);
             if(this.hp <= 0){
                 this.isAlive = false;
+
+                eventScore.emit('brick:destroyed', this.score);
             }
         }
     }
