@@ -69,7 +69,7 @@ export class Brick extends GameObject {
     }
 
     _isColor(color){
-        var reg=/^#([0-9a-f]{3}){1,2}$/i;
+        var reg = /^#([0-9a-f]{3,4}|[0-9a-f]{6}|[0-9a-f]{8})$/i;
         return (reg.test(color));
     }
 
