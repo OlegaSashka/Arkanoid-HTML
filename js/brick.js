@@ -2,13 +2,15 @@ import { GameObject } from './gameObject.js';
 import { eventScore } from './eventScore.js';
 
 export class Brick extends GameObject {
-    constructor(x, y, width, height, maxHp = 1, score=10, color = null, randomColor = false) {
+    constructor(x, y, width, height, maxHp = 1, color = null, randomColor = false, score=10) {
         super(x,y, width, height);
         
         this.color = color;
         this.randomColor = randomColor;
         this.maxHp = maxHp;
         this.hp = maxHp;
+
+        this.score = score;
 
         if(this.randomColor){
             this.color = this._getRandomColor();

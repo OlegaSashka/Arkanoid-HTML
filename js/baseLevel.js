@@ -13,21 +13,21 @@ export class BaseLevel {
         this.paddle = null;
 
         this.score = new GameScore();
-
+        
         eventScore.on('brick:destroyed', (points) => 
             {
                 this.score.resizeScore(points);
-                
-                const scoreElement = document.getElementById('game-score');
-                if(scoreElement){
-                    scoreElement.innerText = this.score.currentScore;
-                }
             });
 
         this.init();
     }
 
-    init(){}
+    init(){
+        this.score.resetScore();
+
+        const scoreElement = document.getElementById('game-score');
+        this.score.setElementId(scoreElement);
+    }
 
     update() {
         this.balls.forEach(ball => {

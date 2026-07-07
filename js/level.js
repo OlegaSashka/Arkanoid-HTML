@@ -6,6 +6,8 @@ import { BrickWork } from './brickwork.js';
 
 export class Level extends BaseLevel {
     init(){
+        super.init();
+
         this.balls[0] = new Ball(200, 450, 10, 4, -2);
 
         this.paddle = new Paddle(220, 500, 200, 20);
