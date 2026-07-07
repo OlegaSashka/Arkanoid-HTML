@@ -9,9 +9,18 @@
 </head>
 <body>
     <div id="app-root">
-        <h2> Score: <span id="game-score">0</span></h2>
-
+        <div class="game-header">
+            <h2>Очки: <span id="game-score">0</span></h2>
+            <h2>Рекорд: <span id="game-highScore">0</span></h2>
+        </div>
+        
         <canvas id="gameCanvas" width="800" height="600"></canvas>
+        
+        <div class="game-footer">
+            <h2>Жизни: <span id="game-lives">3</span></h2>
+            <h2>Уровень: <span id="game-level">1</span></h2>
+            <h2>Рекорд уровня: <span id="game-highLevel">1</span></h2>
+        </div>
     </div>
     <script type="module" src="js\main.js"></script>
 </body>
