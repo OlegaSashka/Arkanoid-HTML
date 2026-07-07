@@ -114,6 +114,7 @@ export class BaseLevel {
         if(minOverlap == overlapLeft) return {nx: -1, ny: 0};
         if(minOverlap == overlapRight) return {nx: 1, ny: 0};
         if(minOverlap == overlapTop) return {nx: 0, ny: -1};
+        
         return {nx: 0, ny: 1}
     }
 

@@ -8,7 +8,7 @@ export class Level extends BaseLevel {
     init(){
         super.init();
 
-        this.balls[0] = new Ball(200, 450, 10, 4, -2);
+        this.balls[0] = new Ball(400, 450, 10, -1, -1, 5);
 
         this.paddle = new Paddle(220, 500, 200, 20);
 
@@ -18,6 +18,6 @@ export class Level extends BaseLevel {
             new Wall(0, 0, 800, 10, 'horizontal')    // Верхняя горизонтальная стена (крыша)
         ];
 
-        this.bricks = new BrickWork(20, 50, this.worldWidth - 38, 140, 30, 12);
+        this.bricks = new BrickWork(20, 50, this.worldWidth - 38, 140, 15, 5);
     }
 }
