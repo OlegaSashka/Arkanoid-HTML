@@ -29,9 +29,12 @@ export class Level extends BaseLevel {
         const mainBrickHeight = 140;
         this.bricks = new BrickWork(20, 80, this.worldWidth - 38, mainBrickHeight, countBriksX, countBriksY, 1);
 
-        const singleBrickHeight = mainBrickHeight / countBriksY;
+        let singleBrickHeight = mainBrickHeight / countBriksY;
+        if(singleBrickHeight >= 25){
+            singleBrickHeight = 25;
+        }
 
-        const briks_1 = new BrickWork(20, 80 - singleBrickHeight, this.worldWidth - 38, singleBrickHeight, countBriksX, 1, 2, "#000000ff");
+        const briks_1 = new BrickWork(20, 80 - singleBrickHeight, this.worldWidth - 38, singleBrickHeight, countBriksX, 1, 2, "#000000");
         this.bricks.push(...briks_1);
     }
 
