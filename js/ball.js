@@ -37,6 +37,16 @@ export class Ball extends GameObject {
 
             this.direction = this.direction.normalize();
             
+            if (normal.y === -1 && info.target) {
+                const maxAngleRad = 45 * Math.PI / 180;
+                const maxSin = Math.sin(maxAngleRad);
+
+            if (Math.abs(this.direction.x) > maxSin) {
+                    this.direction.x = Math.sign(this.direction.x) * maxSin;
+                    this.direction.y = -Math.sqrt(1 - this.direction.x * this.direction.x);
+                }
+            }
+
             if(normal.y === -1 && info.target) {
                 this.y = info.target.top - this.height;
             }

@@ -1,6 +1,7 @@
 import { GameObject } from "./gameObject.js"
 import { InputManager } from "./input.js"
 import { Vector2D } from "./vector2D.js";
+import { CollisionType } from "./collisionType.js";
 
 export class Paddle extends GameObject {
     constructor(x, y, width, height, vx = 0, vy = 0, speed = 5, ballRider = null, xRide = 50) {
@@ -42,15 +43,29 @@ export class Paddle extends GameObject {
         super.update();
     }
 
-    onCollision(other) {
-        if (other.type === 'wall_left' && this.vx < 0) {
+    onCollision(info) {
+        if (info.type === CollisionType.WALL_LEFT && this.vx < 0) {
             this.vx = 0;
-            this.x = other.x;
+            this.x = info.x;
         }
 
-        if (other.type === 'wall_right' && this.vx > 0) {
+        if (info.type === CollisionType.WALL_RIGHT  && this.vx > 0) {
             this.vx = 0;
-            this.x = other.x - this.width;
+            this.x = info.x - this.width;
+        }
+
+        if (info.type === CollisionType.SURFACE) {
+            const normal = info.normal;
+
+            if (normal.x !== 0 && info.target) {
+                if (normal.x === 1) {
+                    this.x = info.target.left - this.width;
+                } else if (normal.x === -1) {
+                    this.x = info.target.right;
+                }
+                
+                this.vx = 0;
+            }
         }
     }
 

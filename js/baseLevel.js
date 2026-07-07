@@ -28,7 +28,9 @@ export class BaseLevel {
         this.score.resetScore();
 
         const scoreElement = document.getElementById('game-score');
-        this.score.setElementId(scoreElement);
+        const hightScoreElement = document.getElementById('game-hightScore');
+        const livesElement = document.getElementById('game-lives');
+        this.score.setElementsId(scoreElement, hightScoreElement, livesElement);
     }
 
     update() {
@@ -60,6 +62,14 @@ export class BaseLevel {
                 });
 
                 ball.onCollision(collisionEvent);
+
+                const paddleEvent = new CollisionInfo({
+                    type: CollisionType.SURFACE,
+                    normal: normal,
+                    target: ball 
+                });
+
+                this.paddle.onCollision(paddleEvent);
             }
 
             this.walls.forEach(wall => {
@@ -113,25 +123,28 @@ export class BaseLevel {
         const overlapTop = ball.bottom - rect.top;
         const overlapBottom = rect.bottom - ball.top;
 
+        const relVx = ball.vx - (rect.vx || 0);
+        const relVy = ball.vy - (rect.vy || 0);
+
         let minOverlap = Infinity;
         let normal = new Vector2D(0, 0);
 
-        if (ball.vx > 0 && overlapLeft < minOverlap) {
+        if (relVx > 0 && overlapLeft < minOverlap) {
             minOverlap = overlapLeft;
             normal = new Vector2D(-1, 0);
         }
 
-        if (ball.vx < 0 && overlapRight < minOverlap) {
+        if (relVx < 0 && overlapRight < minOverlap) {
             minOverlap = overlapRight;
             normal = new Vector2D(1, 0);
         }
 
-        if (ball.vy > 0 && overlapTop < minOverlap) {
+        if (relVy > 0 && overlapTop < minOverlap) {
             minOverlap = overlapTop;
             normal = new Vector2D(0, -1);
         }
 
-        if (ball.vy < 0 && overlapBottom < minOverlap) {
+        if (relVy < 0 && overlapBottom < minOverlap) {
             minOverlap = overlapBottom;
             normal = new Vector2D(0, 1);
         }
