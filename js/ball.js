@@ -45,10 +45,21 @@ export class Ball extends GameObject {
                     this.direction.x = Math.sign(this.direction.x) * maxSin;
                     this.direction.y = -Math.sqrt(1 - this.direction.x * this.direction.x);
                 }
+                
+                this.y = info.target.top - this.height;
             }
 
-            if(normal.y === -1 && info.target) {
-                this.y = info.target.top - this.height;
+            const minAngleXRad = 15 * Math.PI/180;
+            const minSinX = Math.sin(minAngleXRad)
+
+            if(Math.abs(this.direction.y) < minSinX){
+                this.direction.y = Math.sign(this.direction.y) * minSinX;
+
+                if (this.direction.y === 0) this.direction.y = -minSinX;
+
+                this.direction.x = Math.sign(this.direction.x) * Math.sqrt(1 - this.direction.y * this.direction.y);
+
+                this.direction = this.direction.normalize();
             }
         }
     }
