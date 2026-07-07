@@ -1,5 +1,7 @@
 import { GameScore } from "./gameScore.js";
 import { eventScore } from "./eventScore.js";
+import { CollisionInfo, CollisionType } from "./collisionType.js";
+import { Vector2D } from "./vector2D.js";
 
 export class BaseLevel {
     constructor(worldWidth, worldHeight) {
@@ -50,42 +52,44 @@ export class BaseLevel {
             if(this.paddle && ball.intersects(this.paddle)){
                 const normal = this._getCollisionNormal(ball, this.paddle);
 
-                ball.onCollision({
-                    type: 'surface',
-                    nx: normal.nx,
-                    ny: normal.ny,
+                const collisionEvent = new CollisionInfo({
+                    type: CollisionType.SURFACE,
+                    normal: normal,
+                    target: this.paddle,
                     rectTop: this.paddle.top
                 });
+
+                ball.onCollision(collisionEvent);
             }
 
             this.walls.forEach(wall => {
                 if(ball.intersects(wall)) {
                     const normal = this._getCollisionNormal(ball, wall);
-                    ball.onCollision({
-                        type: 'surface',
-                        nx: normal.nx,
-                        ny: normal.ny,
+
+                    const collisionEvent = new CollisionInfo({
+                        type: CollisionType.SURFACE,
+                        normal: normal,
+                        target: wall,
                         rectTop: wall.top
                     });
+
+                    ball.onCollision(collisionEvent);
                 }
             });
 
             this.bricks.forEach(brick => {
                 if(ball.intersects(brick)) {
                     const normal = this._getCollisionNormal(ball, brick);
-                    brick.onCollision({
-                        type: 'surface',
-                        nx: normal.nx,
-                        ny: normal.ny,
-                        rectTop: brick.top
+
+                    const collisionEvent = new CollisionInfo({
+                        type: CollisionType.SURFACE,
+                        normal: normal,
+                        target: brick,
+                        rectTop: bri.top
                     });
 
-                    ball.onCollision({
-                        type: 'surface',
-                        nx: normal.nx,
-                        ny: normal.ny,
-                        rectTop: brick.top
-                    });
+                    brick.onCollision(collisionEvent);
+                    ball.onCollision(collisionEvent);
                 }
             });
 
@@ -93,9 +97,9 @@ export class BaseLevel {
                 this.walls.forEach(wall => {
                     if(this.paddle.intersects(wall)){
                         if (wall.x < this.worldWidth / 2) {
-                            this.paddle.onCollision({ type: 'wall_left', x: wall.right });
+                            this.paddle.onCollision({ type: CollisionType.WALL_LEFT, x: wall.right });
                         } else {
-                            this.paddle.onCollision({ type: 'wall_right', x: wall.left });
+                            this.paddle.onCollision({ type: CollisionType.WALL_RIGHT, x: wall.left });
                         }
                     }
                 })
@@ -110,26 +114,26 @@ export class BaseLevel {
         const overlapBottom = rect.bottom - ball.top;
 
         let minOverlap = Infinity;
-        let normal = {nx:0, ny:0};
+        let normal = new Vector2D(0, 0);
 
-    if (ball.vx > 0 && overlapLeft < minOverlap) {
+        if (ball.vx > 0 && overlapLeft < minOverlap) {
             minOverlap = overlapLeft;
-            normal = { nx: -1, ny: 0 };
+            normal = new Vector2D(-1, 0);
         }
 
         if (ball.vx < 0 && overlapRight < minOverlap) {
             minOverlap = overlapRight;
-            normal = { nx: 1, ny: 0 };
+            normal = new Vector2D(1, 0);
         }
 
         if (ball.vy > 0 && overlapTop < minOverlap) {
             minOverlap = overlapTop;
-            normal = { nx: 0, ny: -1 };
+            normal = new Vector2D(0, -1);
         }
 
         if (ball.vy < 0 && overlapBottom < minOverlap) {
             minOverlap = overlapBottom;
-            normal = { nx: 0, ny: 1 };
+            normal = new Vector2D(0, 1);
         }
         return normal;
     }

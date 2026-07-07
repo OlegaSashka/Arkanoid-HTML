@@ -1,5 +1,6 @@
 import { GameObject } from './gameObject.js';
 import { Vector2D } from './vector2D.js';
+import { CollisionType } from './collisionType.js';
 
 export class Ball extends GameObject {
     constructor(x, y, radius, dirX = 0, dirY = 0, speed = 0) {
@@ -20,10 +21,9 @@ export class Ball extends GameObject {
         this._isDead(worldWidth, worldHeight);
     }
 
-    onCollision(other){
-        if(other.type === 'surface') {
-            const normal = new Vector2D(other.nx, other.ny)
-
+    onCollision(info){
+        if(info.type === CollisionType.SURFACE) {
+            const normal = info.normal;
             const dot = this.direction.dot(normal);
             
             if (dot >= 0) return;
@@ -31,8 +31,12 @@ export class Ball extends GameObject {
             this.direction.x = this.direction.x - 2 * dot * normal.x;
             this.direction.y = this.direction.y - 2 * dot * normal.y;
 
-            this.direction = this.direction.normalize();
+            if(info.target && info.target.vx !== 0){
+                this.direction.x += info.target.vx * 0.05;
+            }
 
+            this.direction = this.direction.normalize();
+            
             if(other.ny === -1) {
                 this.y = other.rectTop - this.height;
             }

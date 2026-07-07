@@ -1,6 +1,6 @@
 import { GameObject } from './gameObject.js';
 import { eventScore } from './eventScore.js';
-import { Vector2D } from './vector2D.js';
+import { CollisionType } from './collisionType.js';
 
 export class Brick extends GameObject {
     constructor(x, y, width, height, maxHp = 1, color = null, randomColor = false, score=10) {
@@ -34,11 +34,10 @@ export class Brick extends GameObject {
     }
 
     onCollision(other){
-        if(other.type === 'surface'){
+        if(other.type === CollisionType.SURFACE){
             this._damage(1);
             if(this.hp <= 0){
                 this.isAlive = false;
-
                 eventScore.emit('brick:destroyed', this.score);
             }
         }
