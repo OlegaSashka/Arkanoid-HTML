@@ -24,3 +24,9 @@ body{
     background-color: #ffffff;
     display: block;
 }
+h2 {
+    color: white; 
+    font-family: Arial, 
+    sans-serif; 
+    margin-left: 20px;
+}
