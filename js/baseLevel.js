@@ -2,6 +2,7 @@ import { GameScore } from "./gameScore.js";
 import { eventScore } from "./eventScore.js";
 import { CollisionInfo, CollisionType } from "./collisionType.js";
 import { Vector2D } from "./vector2D.js";
+import { SaveManager } from "./saveManager.js";
 
 export class BaseLevel {
     constructor(worldWidth, worldHeight) {
@@ -16,10 +17,13 @@ export class BaseLevel {
 
         this.score = new GameScore();
         
+        this.currentLevel = 1;
+        this.highLevel = 1;
+
         eventScore.on('brick:destroyed', (points) => 
-            {
-                this.score.resizeScore(points);
-            });
+        {
+            this.score.resizeScore(points);
+        });
 
         this.init();
     }
@@ -27,10 +31,25 @@ export class BaseLevel {
     init(){
         this.score.resetScore();
 
+        const savedState = SaveManager.load();
+        this.score.highScore = savedState?.highScore ?? 0;
+        this.highLevel = savedState?.highLevel ?? 0;
+
         const scoreElement = document.getElementById('game-score');
-        const hightScoreElement = document.getElementById('game-hightScore');
+        const highScoreElement = document.getElementById('game-highScore');
         const livesElement = document.getElementById('game-lives');
-        this.score.setElementsId(scoreElement, hightScoreElement, livesElement);
+
+        this.score.setElementsId(scoreElement, highScoreElement, livesElement);
+
+        const levelElement = document.getElementById('game-level');
+        const highLevelElement = document.getElementById('game-highLevel');
+
+        if(levelElement){
+            levelElement.innerText = this.currentLevel;
+        }
+        if(highLevelElement){
+            highLevelElement.innerText = this.highLevel;
+        }
     }
 
     update() {
@@ -175,7 +194,17 @@ export class BaseLevel {
         this.balls = this.balls.filter(ball => ball.isAlive);
         this.bricks = this.bricks.filter(brick => brick.isAlive);
 
-        if(this.balls.length === 0)
+        if(this.balls.length === 0){
             this.init();
+        }
+
+        if(this.bricks.length === 0){
+            this.currentLevel += 1;
+            if(this.currentLevel > this.highLevel){
+                this.highLevel = this.currentLevel;
+                SaveManager.save({highLevel: this.highLevel});
+            }
+            this.init();
+        }  
     }
 }
