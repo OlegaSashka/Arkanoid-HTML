@@ -37,8 +37,8 @@ export class Ball extends GameObject {
 
             this.direction = this.direction.normalize();
             
-            if(other.ny === -1) {
-                this.y = other.rectTop - this.height;
+            if(normal.y === -1 && info.target) {
+                this.y = info.target.top - this.height;
             }
         }
     }

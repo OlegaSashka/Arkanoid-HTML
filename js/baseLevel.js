@@ -85,7 +85,7 @@ export class BaseLevel {
                         type: CollisionType.SURFACE,
                         normal: normal,
                         target: brick,
-                        rectTop: bri.top
+                        rectTop: brick.top
                     });
 
                     brick.onCollision(collisionEvent);

@@ -14,9 +14,9 @@ export class Level extends BaseLevel {
         this.paddle = new Paddle(220, 500, 200, 20, 0, 0, 5, startingBall);
 
         this.walls = [
-            new Wall(0, 0, 20, 600, 'vertical'),     // Левая вертикальная стена
-            new Wall(780, 0, 20, 600, 'vertical'),   // Правая вертикальная стена
-            new Wall(0, 0, 800, 10, 'horizontal')    // Верхняя горизонтальная стена (крыша)
+            new Wall(0, 0, 20, 600, 0, 0,'vertical'),     // Левая вертикальная стена
+            new Wall(780, 0, 20, 600, 0, 0, 'vertical'),   // Правая вертикальная стена
+            new Wall(0, 0, 800, 10, 0, 0, 'horizontal')    // Верхняя горизонтальная стена (крыша)
         ];
 
         this.bricks = new BrickWork(20, 50, this.worldWidth - 38, 140, 15, 5);
