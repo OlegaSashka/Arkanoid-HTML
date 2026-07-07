@@ -109,13 +109,29 @@ export class BaseLevel {
         const overlapTop = ball.bottom - rect.top;
         const overlapBottom = rect.bottom - ball.top;
 
-        const minOverlap = Math.min(overlapLeft, overlapRight, overlapTop, overlapBottom);
+        let minOverlap = Infinity;
+        let normal = {nx:0, ny:0};
 
-        if(minOverlap == overlapLeft) return {nx: -1, ny: 0};
-        if(minOverlap == overlapRight) return {nx: 1, ny: 0};
-        if(minOverlap == overlapTop) return {nx: 0, ny: -1};
+    if (ball.vx > 0 && overlapLeft < minOverlap) {
+            minOverlap = overlapLeft;
+            normal = { nx: -1, ny: 0 };
+        }
 
-        return {nx: 0, ny: 1}
+        if (ball.vx < 0 && overlapRight < minOverlap) {
+            minOverlap = overlapRight;
+            normal = { nx: 1, ny: 0 };
+        }
+
+        if (ball.vy > 0 && overlapTop < minOverlap) {
+            minOverlap = overlapTop;
+            normal = { nx: 0, ny: -1 };
+        }
+
+        if (ball.vy < 0 && overlapBottom < minOverlap) {
+            minOverlap = overlapBottom;
+            normal = { nx: 0, ny: 1 };
+        }
+        return normal;
     }
 
     draw(ctx) {

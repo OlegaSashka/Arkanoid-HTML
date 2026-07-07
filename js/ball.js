@@ -26,6 +26,8 @@ export class Ball extends GameObject {
 
             const dot = this.direction.dot(normal);
             
+            if (dot >= 0) return;
+
             this.direction.x = this.direction.x - 2 * dot * normal.x;
             this.direction.y = this.direction.y - 2 * dot * normal.y;
 
