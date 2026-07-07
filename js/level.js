@@ -23,7 +23,16 @@ export class Level extends BaseLevel {
             new Wall(0, 0, 800, 10, 0, 0, 'horizontal')    // Верхняя горизонтальная стена (крыша)
         ];
 
-        this.bricks = new BrickWork(20, 50, this.worldWidth - 38, 140, this.getRandomInt(5,20), this.getRandomInt(5,20));
+        const countBriksX = this.getRandomInt(5,20);
+        const countBriksY = this.getRandomInt(1,20);
+
+        const mainBrickHeight = 140;
+        this.bricks = new BrickWork(20, 80, this.worldWidth - 38, mainBrickHeight, countBriksX, countBriksY, 1);
+
+        const singleBrickHeight = mainBrickHeight / countBriksY;
+
+        const briks_1 = new BrickWork(20, 80 - singleBrickHeight, this.worldWidth - 38, singleBrickHeight, countBriksX, 1, 2, "#000000ff");
+        this.bricks.push(...briks_1);
     }
 
     getRandomInt(min, max) {
