@@ -21,8 +21,4 @@ export class Vector2D{
     dot(other){
         return this.x * other.x + this.y * other.y;
     }
-
-    zeroVetor(){
-        return new Vector2D(0,0);
-    }
 }

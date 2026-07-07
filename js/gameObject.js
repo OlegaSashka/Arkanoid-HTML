@@ -24,7 +24,7 @@ export class GameObject {
 
     // Переходники для размеров
     get width() { return this.size.x; }
-    set width(value) { this.size.size.x = value; }
+    set width(value) { this.size.x = value; }
 
     get height() { return this.size.y; }
     set height(value) { this.size.y = value; }
@@ -41,8 +41,8 @@ export class GameObject {
     get top() { return this.position.y;}
     get bottom() { return this.position.y + this.size.y;}
 
-    get centerX() {return this.position.x / this.size.x / 2;}
-    get centerY() {return this.position.y / this.size.y / 2;}
+    get centerX() {return this.position.x + this.size.x / 2;}
+    get centerY() {return this.position.y + this.size.y / 2;}
 
     intersects(other) {
         return this.right > other.left &&

@@ -1,5 +1,6 @@
 import { GameObject } from './gameObject.js';
 import { eventScore } from './eventScore.js';
+import { Vector2D } from './vector2D.js';
 
 export class Brick extends GameObject {
     constructor(x, y, width, height, maxHp = 1, color = null, randomColor = false, score=10) {
@@ -12,6 +13,10 @@ export class Brick extends GameObject {
 
         this.score = score;
 
+        this.init();
+    }
+
+    init(){
         if(this.randomColor){
             this.color = this._getRandomColor();
         }

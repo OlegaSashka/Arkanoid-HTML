@@ -8,9 +8,10 @@ export class Level extends BaseLevel {
     init(){
         super.init();
 
-        this.balls[0] = new Ball(400, 450, 10, -1, -1, 5);
+        const startingBall = new Ball(400, 400, 10, 0, 0, 0);
+        this.balls[0] = startingBall;
 
-        this.paddle = new Paddle(220, 500, 200, 20);
+        this.paddle = new Paddle(220, 500, 200, 20, 0, 0, 5, startingBall);
 
         this.walls = [
             new Wall(0, 0, 20, 600, 'vertical'),     // Левая вертикальная стена
