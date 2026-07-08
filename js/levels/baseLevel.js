@@ -1,10 +1,10 @@
-import { GameScore } from "./gameScore.js";
-import { eventScore } from "./eventScore.js";
-import { CollisionInfo, CollisionType } from "./collisionType.js";
-import { Vector2D } from "./vector2D.js";
-import { SaveManager } from "./saveManager.js";
-import { audioManager } from "./managers/audioManager.js";
-import { AudioManifest } from "../assets/audioManifest.js";
+import { GameScore } from "../managers/gameScore.js";
+import { eventScore } from "../core/eventScore.js";
+import { CollisionInfo, CollisionType } from "../core/collisionType.js";
+import { Vector2D } from "../core/vector2D.js";
+import { SaveManager } from "../managers/saveManager.js";
+import { audioManager } from "../managers/audioManager.js";
+import { AudioManifest } from "../../assets/audioManifest.js";
 
 export class BaseLevel {
     constructor(worldWidth, worldHeight) {

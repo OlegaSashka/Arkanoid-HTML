@@ -1,4 +1,4 @@
-import { Vector2D } from "./vector2D.js";
+import { Vector2D } from "../vector2D.js";
 
 export const CollisionType = Object.freeze({
     SURFACE: 'surface',

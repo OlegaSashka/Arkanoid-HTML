@@ -1,6 +1,6 @@
 import {Game} from './app.js';
 import { audioManager } from './managers/audioManager.js';
-import { Preloader } from './preloader.js';
+import { Preloader } from './core/preloader.js';
 
 async function startGame() {
     try{

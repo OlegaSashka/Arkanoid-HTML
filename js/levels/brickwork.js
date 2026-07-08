@@ -1,4 +1,4 @@
-import { Brick } from "./brick.js";
+import { Brick } from "../brick.js";
 
 export class BrickWork {
     constructor(startX, startY, totalWidth, totalHeight, cols = 10, rows = 4, HP = 1, color = null){

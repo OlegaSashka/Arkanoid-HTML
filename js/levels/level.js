@@ -1,7 +1,7 @@
 import { BaseLevel } from './baseLevel.js';
-import { Ball } from './ball.js';
-import { Paddle } from './paddle.js';
-import { Wall } from './wall.js';
+import { Ball } from '../ball.js';
+import { Paddle } from '../paddle.js';
+import { Wall } from '../wall.js';
 import { BrickWork } from './brickwork.js';
 
 export class Level extends BaseLevel {

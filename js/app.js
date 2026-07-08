@@ -1,5 +1,5 @@
 
-import { Level } from "./level.js";
+import { Level } from "./levels/level.js";
 
 export class Game {
     constructor(canvasId) {
