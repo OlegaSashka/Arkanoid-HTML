@@ -25,8 +25,6 @@ export class Ball extends GameObject {
 
     onCollision(info){
         if(info.type === CollisionType.SURFACE) {
-
-            
             if(info.target.hp && info.target.hp === 0) {
                 audioManager.playSoundOnce(AudioManifest.BRICK_HIT.key, 0.1)
             }else if (info.target.hp > 0 || !info.target.hp){

@@ -5,6 +5,7 @@ import { Vector2D } from "../core/vector2D.js";
 import { SaveManager } from "../managers/saveManager.js";
 import { audioManager } from "../managers/audioManager.js";
 import { AudioManifest } from "../../assets/audioManifest.js";
+import { UpgradeBrick } from "../entities/Upgrades/upgradeBrick.js";
 
 export class BaseLevel {
     constructor(worldWidth, worldHeight) {
@@ -14,6 +15,7 @@ export class BaseLevel {
         this.balls = [];
         this.walls = [];
         this.bricks = [];
+        this.upgradeBricks = [];
 
         this.paddle = null;
 
@@ -73,6 +75,10 @@ export class BaseLevel {
             this.paddle.update(this.worldWidth, this.worldHeight);
         }
 
+        this.upgradeBricks.forEach(upgradeBrick => {
+            upgradeBrick.update(this.worldWidth, this.worldHeight);
+        })
+
         this._checkCollision();
 
         this._cleanup();
@@ -131,6 +137,20 @@ export class BaseLevel {
 
                     brick.onCollision(collisionEvent);
                     ball.onCollision(collisionEvent);
+                }
+            });
+
+            this.upgradeBricks.forEach(upgradeBrick => {
+                if(this.paddle && upgradeBrick.intersects(this.paddle)) {
+                    const normal = this._getCollisionNormal(upgradeBrick, this.paddle);
+
+                    const collisionEvent = new CollisionInfo({
+                        type: CollisionType.SURFACE,
+                        type: normal,
+                        target: this.paddle
+                    });
+
+                    upgradeBrick.onCollision(collisionEvent, this);
                 }
             });
 
@@ -205,6 +225,7 @@ export class BaseLevel {
     _cleanup() {
         this.balls = this.balls.filter(ball => ball.isAlive);
         this.bricks = this.bricks.filter(brick => brick.isAlive);
+        this.upgradeBricks = this.upgradeBricks.filter(upgradeBrick => upgradeBrick.isAlive)
 
         if(this.balls.length === 0){
             this.score.damagePlayer(1);
