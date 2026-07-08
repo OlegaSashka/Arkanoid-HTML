@@ -44,7 +44,7 @@ export class Paddle extends GameObject {
         this._tryMove(this.speed);
         if(this.ballRider){
             if(this.input.actions['launch']){
-                this.ballRider.Speed = 2;
+                this.ballRider.Speed = 2.5;
                 this.ballRider.direction = new Vector2D(this.vx/5,-1).normalize();
 
                 this.ballRider = null;
