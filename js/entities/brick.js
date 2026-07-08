@@ -2,6 +2,9 @@ import { GameObject } from './gameObject.js';
 import { eventScore } from '../core/eventScore.js';
 import { CollisionType } from '../core/collisionType.js';
 
+import { MultiBallUpgrade } from './Upgrades/multiBallUpgrade.js';
+import { SpeedBallUpgrade } from './Upgrades/speedBallUpgrade.js';
+
 export class Brick extends GameObject {
     constructor(x, y, width, height, maxHp = 1, color = null, randomColor = false, score=10) {
         super(x,y, width, height);
@@ -18,10 +21,10 @@ export class Brick extends GameObject {
 
     init(){
         if(this.randomColor){
-            this.color = this._getRandomColor();
+            this.color = this.#getRandomColor();
         }
 
-        if(!this.color || !this._isColor(this.color)){
+        if(!this.color || !this.#isColor(this.color)){
             this.color = "green";
         }
     }
@@ -33,12 +36,24 @@ export class Brick extends GameObject {
         }
     }
 
-    onCollision(other){
+    onCollision(other, level){
         if(other.type === CollisionType.SURFACE){
-            this._damage(1);
+            this.#damage(1);
             if(this.hp <= 0){
                 this.isAlive = false;
                 eventScore.emit('brick:destroyed', this.score);
+                const sizeX = this.width > 50 ? 50 : this.width;
+                const sizeY = this.height > 15 ? 15 : this.height;
+                const randomBonus = this.#getRandomInt(0,100);
+                if(randomBonus > 90){
+                    const block = new MultiBallUpgrade(this.left, 
+                                        this.top, sizeX, sizeY, 2);
+                    level.upgradeBricks.push(block);
+                } else if(randomBonus > 82){
+                    const block = new SpeedBallUpgrade(this.left, 
+                                this.top, sizeX, sizeY, 2);
+                    level.upgradeBricks.push(block);
+                }
             }
         }
     }
@@ -56,10 +71,10 @@ export class Brick extends GameObject {
     }
 
     setRandomColor(){
-        this.color = this._getRandomColor();
+        this.color = this.#getRandomColor();
     }
 
-    _damage(count){
+    #damage(count){
         this.hp -= count; 
         
         if(this.hp <= 0) {
@@ -68,17 +83,23 @@ export class Brick extends GameObject {
         
     }
 
-    _isColor(color){
+    #isColor(color){
         var reg = /^#([0-9a-f]{3,4}|[0-9a-f]{6}|[0-9a-f]{8})$/i;
         return (reg.test(color));
     }
 
-    _getRandomColor() {
+    #getRandomColor() {
         var letters = '0123456789ABCDEF';
         var color = '#';
         for (var i = 0; i < 6; i++) {
             color += letters[Math.floor(Math.random() * 16)];
         }
         return color;
+    }
+    
+    #getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 }
