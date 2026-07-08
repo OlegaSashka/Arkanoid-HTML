@@ -10,10 +10,8 @@ export class ResizePaddleUpgrade extends UpgradeBrick {
         if(level.balls.length > 0){
             level.resetAllSetings();
             if(this.reduce == true){
-                console.log("this.reduce 1" + this.reduce);
                 level.paddle.reduceWidth(60);
             }else{
-                console.log("this.reduce 2" + this.reduce);
                 level.paddle.addWidth(60);
             }
         }

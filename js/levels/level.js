@@ -11,7 +11,6 @@ export class Level extends BaseLevel {
 
     update(){
         super.update();
-        console.log("this.balls[0].speed " + this.balls[0].speed);
     }
 
     restartLevel(){
@@ -21,7 +20,7 @@ export class Level extends BaseLevel {
         
         this.balls[0] = startingBall;
 
-        this.paddle = new Paddle(this.getRandomInt(0, this.worldWidth - 170), 500, 170, 15, 0, 0, 8, startingBall, this.getRandomInt(30,140));
+        this.paddle = new Paddle(this.getRandomInt(0, this.worldWidth - 170), 500, 130, 15, 0, 0, 8, startingBall, this.getRandomInt(30,120));
 
         this.walls = [
             new Wall(0, 0, 20, 600, 0, 0,'vertical'),     // Левая вертикальная стена
