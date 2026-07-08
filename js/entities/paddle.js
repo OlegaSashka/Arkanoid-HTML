@@ -1,9 +1,9 @@
 import { GameObject } from "./gameObject.js"
-import { InputManager } from "./input.js"
-import { Vector2D } from "./vector2D.js";
-import { CollisionType } from "./collisionType.js";
-import { audioManager } from './managers/audioManager.js';
-import { AudioManifest } from "../assets/audioManifest.js";
+import { InputManager } from "../core/input.js"
+import { Vector2D } from "../core/vector2D.js";
+import { CollisionType } from "../core/collisionType.js";
+import { audioManager } from '../managers/audioManager.js';
+import { AudioManifest } from "../../assets/audioManifest.js";
 
 export class Paddle extends GameObject {
     constructor(x, y, width, height, vx = 0, vy = 0, speed = 5, ballRider = null, xRide = 50) {

@@ -1,4 +1,4 @@
-import { Vector2D } from "./vector2D.js";
+import { Vector2D } from "../core/vector2D.js";
 
 export class GameObject {
     constructor(x, y, width, height, vx = 0, vy = 0) {

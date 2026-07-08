@@ -1,6 +1,6 @@
 import { GameObject } from './gameObject.js';
-import { eventScore } from './eventScore.js';
-import { CollisionType } from './collisionType.js';
+import { eventScore } from '../core/eventScore.js';
+import { CollisionType } from '../core/collisionType.js';
 
 export class Brick extends GameObject {
     constructor(x, y, width, height, maxHp = 1, color = null, randomColor = false, score=10) {

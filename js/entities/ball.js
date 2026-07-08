@@ -1,8 +1,8 @@
 import { GameObject } from './gameObject.js';
-import { Vector2D } from './vector2D.js';
-import { CollisionType } from './collisionType.js';
-import { audioManager } from './managers/audioManager.js';
-import { AudioManifest } from "../assets/audioManifest.js";
+import { Vector2D } from '../core/vector2D.js';
+import { CollisionType } from '../core/collisionType.js';
+import { audioManager } from '../managers/audioManager.js';
+import { AudioManifest } from "../../assets/audioManifest.js";
 
 export class Ball extends GameObject {
     constructor(x, y, radius, dirX = 0, dirY = 0, speed = 0) {

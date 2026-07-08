@@ -1,5 +1,5 @@
-import { eventScore } from './eventScore.js';
-import { CollisionType } from './collisionType.js';
+import { eventScore } from '../../core/eventScore.js';
+import { CollisionType } from '../../core/collisionType.js';
 import { GameObject } from '../gameObject.js';
 
 export class UpgradeBrick extends GameObject {
