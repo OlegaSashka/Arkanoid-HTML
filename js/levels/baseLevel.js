@@ -64,6 +64,7 @@ export class BaseLevel {
         if(this.elementLevel){
             this.elementLevel.innerText = this.currentLevel;
         }
+        this.upgradeBricks = [];
     }
 
     update() {
@@ -97,7 +98,6 @@ export class BaseLevel {
                     target: this.paddle,
                     rectTop: this.paddle.top
                 });
-
                 ball.onCollision(collisionEvent);
 
                 const paddleEvent = new CollisionInfo({
@@ -117,9 +117,7 @@ export class BaseLevel {
                         type: CollisionType.SURFACE,
                         normal: normal,
                         target: wall,
-                        rectTop: wall.top
                     });
-
                     ball.onCollision(collisionEvent);
                 }
             });
@@ -132,41 +130,40 @@ export class BaseLevel {
                         type: CollisionType.SURFACE,
                         normal: normal,
                         target: brick,
-                        rectTop: brick.top
                     });
 
-                    brick.onCollision(collisionEvent);
+                    brick.onCollision(collisionEvent, this);
                     ball.onCollision(collisionEvent);
                 }
             });
+        });
 
-            this.upgradeBricks.forEach(upgradeBrick => {
-                if(this.paddle && upgradeBrick.intersects(this.paddle)) {
-                    const normal = this._getCollisionNormal(upgradeBrick, this.paddle);
+        this.upgradeBricks.forEach(upgradeBrick => {
+            if(this.paddle && upgradeBrick.intersects(this.paddle)) {
+                const normal = this._getCollisionNormal(upgradeBrick, this.paddle);
 
-                    const collisionEvent = new CollisionInfo({
-                        type: CollisionType.SURFACE,
-                        type: normal,
-                        target: this.paddle
-                    });
+                const collisionEvent = new CollisionInfo({
+                    type: CollisionType.SURFACE,
+                    normal: normal,
+                    target: this.paddle
+                });
 
-                    upgradeBrick.onCollision(collisionEvent, this);
-                }
-            });
-
-            if(this.paddle) {
-                this.walls.forEach(wall => {
-                    if(this.paddle.intersects(wall)){
-                        if (wall.x < this.worldWidth / 2) {
-                            this.paddle.onCollision({ type: CollisionType.WALL_LEFT, x: wall.right });
-                        } else {
-                            this.paddle.onCollision({ type: CollisionType.WALL_RIGHT, x: wall.left });
-                        }
-                    }
-                })
+                upgradeBrick.onCollision(collisionEvent, this);
             }
         });
-    }
+
+        if(this.paddle) {
+            this.walls.forEach(wall => {
+                if(this.paddle.intersects(wall)){
+                    if (wall.x < this.worldWidth / 2) {
+                        this.paddle.onCollision({ type: CollisionType.WALL_LEFT, x: wall.right });
+                    } else {
+                        this.paddle.onCollision({ type: CollisionType.WALL_RIGHT, x: wall.left });
+                    }
+                }
+            })
+        }
+}
 
     _getCollisionNormal(ball, rect){
         const overlapLeft = ball.right - rect.left;
@@ -218,6 +215,10 @@ export class BaseLevel {
         })
 
         this.bricks.forEach(brick => {
+            brick.draw(ctx);
+        })
+
+        this.upgradeBricks.forEach(brick => {
             brick.draw(ctx);
         })
     }

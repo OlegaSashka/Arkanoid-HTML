@@ -1,4 +1,3 @@
-import { eventScore } from '../../core/eventScore.js';
 import { CollisionType } from '../../core/collisionType.js';
 import { GameObject } from '../gameObject.js';
 
@@ -17,7 +16,7 @@ export class UpgradeBrick extends GameObject {
     }
 
     onCollision(info, level){
-        if(info.type === CollisionType.SURFACE && info.target.constructor.name === 'Paddle'){
+        if(info.type === CollisionType.SURFACE){
             this.applyEffect(info.target, level);
             this.isAlive = false;
         }
@@ -32,12 +31,12 @@ export class UpgradeBrick extends GameObject {
 
     applyEffect(entity, level) {}
 
-    _isColor(color){
+    #isColor(color){
         var reg = /^#([0-9a-f]{3,4}|[0-9a-f]{6}|[0-9a-f]{8})$/i;
         return (reg.test(color));
     }
 
-    _getRandomColor() {
+    #getRandomColor() {
         var letters = '0123456789ABCDEF';
         var color = '#';
         for (var i = 0; i < 6; i++) {
