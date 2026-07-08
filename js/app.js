@@ -42,6 +42,10 @@ export class Game {
                     this.ctx.font = "bold 32px sans-serif";
                     this.ctx.textAlign = "center";
                     this.ctx.fillText("ПАУЗА", this.canvas.width / 2, this.canvas.height / 2);
+
+                    this.ctx.fillStyle = "white";
+                    this.ctx.font = "16px monospace";
+                    this.ctx.fillText("Нажмите ESC для продолжения", this.canvas.width / 2, this.canvas.height / 2 + 30);
                 }
             }
             requestAnimationFrame(gameLoop);
