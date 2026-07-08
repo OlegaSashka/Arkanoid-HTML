@@ -1,4 +1,4 @@
-import { UpgradeBrick } from './UpgradeBrick.js';
+import { UpgradeBrick } from './upgradeBrick.js';
 
 
 export class SpeedBallUpgrade extends UpgradeBrick {
