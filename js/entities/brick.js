@@ -58,7 +58,7 @@ export class Brick extends GameObject {
                     return;
                 }
  
-                if(this.#getRandomInt(0,100) > 87){
+                if(this.#getRandomInt(0,100) > 87) {
                     const block = new ResizePaddleUpgrade(
                         this.left, this.top, sizeX, sizeY, 2, this.#getRandomInt(0,100) > 45);
                     level.upgradeBricks.push(block);

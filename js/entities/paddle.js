@@ -77,7 +77,6 @@ export class Paddle extends GameObject {
                 } else if (normal.x === -1) {
                     this.x = info.target.right;
                 }
-                
                 this.vx = 0;
             }
         }
@@ -88,6 +87,7 @@ export class Paddle extends GameObject {
             this.size.x = 50;
         } else {
             this.size.x -= value;
+            this.x += value/2;
         }
     }
 
@@ -96,6 +96,7 @@ export class Paddle extends GameObject {
             this.size.x = 300;
         } else {
             this.size.x += value;
+            this.x -= value/2;
         }
     }
 
