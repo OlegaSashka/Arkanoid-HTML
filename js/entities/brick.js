@@ -4,6 +4,7 @@ import { CollisionType } from '../core/collisionType.js';
 
 import { MultiBallUpgrade } from './Upgrades/multiBallUpgrade.js';
 import { SpeedBallUpgrade } from './Upgrades/speedBallUpgrade.js';
+import { ResizePaddleUpgrade } from './Upgrades/resizePaddleUpgrade.js';
 
 export class Brick extends GameObject {
     constructor(x, y, width, height, maxHp = 1, color = null, randomColor = false, score=10) {
@@ -44,15 +45,24 @@ export class Brick extends GameObject {
                 eventScore.emit('brick:destroyed', this.score);
                 const sizeX = this.width > 50 ? 50 : this.width;
                 const sizeY = this.height > 15 ? 15 : this.height;
-                const randomBonus = this.#getRandomInt(0,100);
-                if(randomBonus > 90){
+                if(this.#getRandomInt(0,100) > 89){
                     const block = new MultiBallUpgrade(this.left, 
                                         this.top, sizeX, sizeY, 2);
                     level.upgradeBricks.push(block);
-                } else if(randomBonus > 82){
+                    return;
+                }
+                if(this.#getRandomInt(0,100) > 84){
                     const block = new SpeedBallUpgrade(this.left, 
                                 this.top, sizeX, sizeY, 2);
                     level.upgradeBricks.push(block);
+                    return;
+                }
+ 
+                if(this.#getRandomInt(0,100) > 87){
+                    const block = new ResizePaddleUpgrade(
+                        this.left, this.top, sizeX, sizeY, 2, this.#getRandomInt(0,100) > 45);
+                    level.upgradeBricks.push(block);
+                    return;
                 }
             }
         }
