@@ -1,6 +1,8 @@
 import { GameObject } from './gameObject.js';
 import { Vector2D } from './vector2D.js';
 import { CollisionType } from './collisionType.js';
+import { audioManager } from './managers/audioManager.js';
+import { AudioManifest } from "../assets/audioManifest.js";
 
 export class Ball extends GameObject {
     constructor(x, y, radius, dirX = 0, dirY = 0, speed = 0) {
@@ -23,6 +25,14 @@ export class Ball extends GameObject {
 
     onCollision(info){
         if(info.type === CollisionType.SURFACE) {
+
+            
+            if(info.target.hp && info.target.hp === 0) {
+                audioManager.playSoundOnce(AudioManifest.BRICK_HIT.key, 0.1)
+            }else if (info.target.hp > 0 || !info.target.hp){
+                audioManager.playSoundOnce(AudioManifest.BOUNCE_WALL.key, 0.1)
+            }
+
             const normal = info.normal;
             const dot = this.direction.dot(normal);
             
