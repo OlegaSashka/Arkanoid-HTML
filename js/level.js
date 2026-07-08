@@ -12,10 +12,10 @@ export class Level extends BaseLevel {
     restartLevel(){
         super.restartLevel();
 
-        const startingBall = new Ball(400, 400, 10, 0, 0, 0);
+        const startingBall = new Ball(400, 400, 7, 0, 0, 0);
         this.balls[0] = startingBall;
 
-        this.paddle = new Paddle(this.getRandomInt(0, this.worldWidth - 170), 500, 170, 15, 0, 0, 5, startingBall, this.getRandomInt(30,140));
+        this.paddle = new Paddle(this.getRandomInt(0, this.worldWidth - 170), 500, 170, 15, 0, 0, 8, startingBall, this.getRandomInt(30,140));
 
         this.walls = [
             new Wall(0, 0, 20, 600, 0, 0,'vertical'),     // Левая вертикальная стена
@@ -23,8 +23,8 @@ export class Level extends BaseLevel {
             new Wall(0, 0, 800, 10, 0, 0, 'horizontal')    // Верхняя горизонтальная стена (крыша)
         ];
 
-        const countBriksX = this.getRandomInt(5,20);
-        const countBriksY = this.getRandomInt(1,20);
+        const countBriksX = this.getRandomInt(5,14);
+        const countBriksY = this.getRandomInt(1,14);
 
         const mainBrickHeight = 140;
         this.bricks = new BrickWork(20, 80, this.worldWidth - 38, mainBrickHeight, countBriksX, countBriksY, 1);
