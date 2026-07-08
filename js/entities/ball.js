@@ -12,22 +12,37 @@ export class Ball extends GameObject {
         this.speed = speed;
 
         this.direction = new Vector2D(dirX, dirY).normalize();
+
+        this.baseSettingsCache = {
+            radius: this.radius,
+            speed: this.speed,
+        };
     }
 
+    set Speed(value) {
+        this.speed = value;
+        this.baseSettingsCache.speed = this.speed;
+    }
+    
     update(worldWidth, worldHeight){
         this.vx = this.direction.x * this.speed;
         this.vy = this.direction.y * this.speed;
 
         super.update();
-        
+
         this._isDead(worldWidth, worldHeight);
+    }
+
+    resetSetting() {
+        this.speed = this.baseSettingsCache.speed;
+        this.radius = this.baseSettingsCache.radius;
     }
 
     onCollision(info){
         if(info.type === CollisionType.SURFACE) {
-            if(info.target.hp && info.target.hp === 0) {
+            if ( info.target.hp && info.target.hp === 0) {
                 audioManager.playSoundOnce(AudioManifest.BRICK_HIT.key, 0.1)
-            }else if (info.target.hp > 0 || !info.target.hp){
+            } else if (info.target.hp > 0 || !info.target.hp){
                 audioManager.playSoundOnce(AudioManifest.BOUNCE_WALL.key, 0.1)
             }
 
@@ -39,7 +54,7 @@ export class Ball extends GameObject {
             this.direction.x = this.direction.x - 2 * dot * normal.x;
             this.direction.y = this.direction.y - 2 * dot * normal.y;
 
-            if(info.target && info.target.vx !== 0){
+            if(info.target && info.target.vx !== 0) {
                 this.direction.x += info.target.vx * 0.05;
             }
 

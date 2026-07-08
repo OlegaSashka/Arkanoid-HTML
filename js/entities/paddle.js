@@ -15,6 +15,11 @@ export class Paddle extends GameObject {
 
         this.xRide = xRide;
 
+        this.baseSettingsCache = {
+            width: this.width,
+            speed: this.speed,
+        };
+
         this.init();
     }
 
@@ -30,11 +35,16 @@ export class Paddle extends GameObject {
         this.input.bindKey('Space', 'launch');
     }
 
+    resetSetting() {
+        this.width = this.baseSettingsCache.width;
+        this.speed = this.baseSettingsCache.speed;
+    }
+
     update() {
         this._tryMove(this.speed);
         if(this.ballRider){
             if(this.input.actions['launch']){
-                this.ballRider.speed = 5;
+                this.ballRider.Speed = 2;
                 this.ballRider.direction = new Vector2D(this.vx/5,-1).normalize();
 
                 this.ballRider = null;
