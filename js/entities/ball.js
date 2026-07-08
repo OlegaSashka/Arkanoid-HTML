@@ -55,7 +55,7 @@ export class Ball extends GameObject {
             this.direction.y = this.direction.y - 2 * dot * normal.y;
 
             if(info.target && info.target.vx !== 0) {
-                this.direction.x += info.target.vx * 0.05;
+                this.direction.x += info.target.vx * 0.15;
             }
 
             this.direction = this.direction.normalize();
@@ -68,7 +68,6 @@ export class Ball extends GameObject {
                     this.direction.x = Math.sign(this.direction.x) * maxSin;
                     this.direction.y = -Math.sqrt(1 - this.direction.x * this.direction.x);
                 }
-                
                 this.y = info.target.top - this.height;
             }
 
