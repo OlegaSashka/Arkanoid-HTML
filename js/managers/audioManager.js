@@ -13,6 +13,13 @@ export class AudioManager {
         this.baseVolume = baseVolume;
 
         AudioManager.#instance = this;
+
+        const unlock = () => {
+            window.removeEventListener('click', unlock);
+            window.removeEventListener('keydown', unlock);
+        };
+        window.addEventListener('click', unlock);
+        window.addEventListener('keydown', unlock);
     }
     
     #asset(relativePath) { 
