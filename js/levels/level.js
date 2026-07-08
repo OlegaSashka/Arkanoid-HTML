@@ -9,10 +9,16 @@ export class Level extends BaseLevel {
         super.init();
     }
 
+    update(){
+        super.update();
+        console.log("this.balls[0].speed " + this.balls[0].speed);
+    }
+
     restartLevel(){
         super.restartLevel();
 
         const startingBall = new Ball(400, 400, 7, 0, 0, 0);
+        
         this.balls[0] = startingBall;
 
         this.paddle = new Paddle(this.getRandomInt(0, this.worldWidth - 170), 500, 170, 15, 0, 0, 8, startingBall, this.getRandomInt(30,140));
@@ -42,5 +48,12 @@ export class Level extends BaseLevel {
         min = Math.ceil(min);
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    resetAllSetings(){
+        this.balls.forEach(ball => {
+            ball.resetSetting();
+        });
+        this.paddle.resetSetting();
     }
 }
