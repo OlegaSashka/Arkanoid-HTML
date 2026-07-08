@@ -83,6 +83,22 @@ export class Paddle extends GameObject {
         }
     }
 
+    reduceWidth(value) {
+        if(this.size.x - value < 50){
+            this.size.x = 50;
+        } else {
+            this.size.x -= value;
+        }
+    }
+
+    addWidth(value) {
+        if(this.size.x + value > 300){
+            this.size.x = 300;
+        } else {
+            this.size.x += value;
+        }
+    }
+
     draw(ctx) {
         ctx.fillStyle = '#2196F3';
         ctx.fillRect(this.x, this.y, this.width, this.height);
